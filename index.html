@@ -46,7 +46,14 @@
     <!-- loading modules -->
     <script>
       require([ 
-        "esri/config","esri/Map","esri/views/MapView","esri/widgets/Locate","esri/widgets/Search","esri/layers/FeatureLayer"], 
+        "esri/config",
+        "esri/Map",
+        "esri/views/MapView",
+        "esri/widgets/Editor",
+        "esri/widgets/Expand",
+        "esri/widgets/Locate",
+        "esri/widgets/Search",
+        "esri/layers/FeatureLayer"], 
         (esriConfig, Map, MapView, Editor, Expand, Locate, Search, FeatureLayer) => {
         
         // set the API key - new commented out for testing
