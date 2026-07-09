@@ -47,7 +47,7 @@
     <script>
       require([ 
         "esri/config","esri/Map","esri/views/MapView","esri/widgets/Locate","esri/widgets/Search","esri/layers/FeatureLayer"], 
-        (esriConfig, Map, MapView, Locate, Search, FeatureLayer) => {
+        (esriConfig, Map, MapView, Editor, Expand, Locate, Search, FeatureLayer) => {
         
         // set the API key - new commented out for testing
          esriConfig.apiKey = "AAPTanQncLZrZf5ur6pM-ljzNxg..i-VpfICarg1tjz10faxck-Zge3EjZ7zUUP6cbX081l71ELCp9bpgqiXurYSbhs0fDmOXMQXAyGeiHz6r66t7EHfdRLO-CHh0jjakX3bxMaWeDs_FW1ECWOu3cH9p_uFnmikXqwfxpBtMbKtKduCMoKi4NsJLd979B2jQuh6qA8C7XL6pc-Zsj47-Mbr-jDGLgR_QEzkw_Qgpi8Q4oJ-Tc-g8-3Y2Q9sE_mfixuiuCYkRfvXy_LtaeqpybeLD6TZomJ_jjRIL7QE.AT1_ZP956a50";
@@ -61,6 +61,32 @@
           map: map, // References the map object
           center: [-89.3846, 43.0747], // Longitude, latitude format
           zoom: 7, // Zoom scale level
+        });
+
+        const Editor = new Editor({
+          view: view,
+          allowedWorkflows: ["create", "update"],
+          layerInfos: [
+            {
+              layer: new FeatureLayer({
+                url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/survey123_3b11ddf5a31d4bd08c2ef37fbf490815_results/FeatureServer"
+              }),
+              addEnabled: true,
+              updateEnabled: true
+            }
+          ]
+        });
+
+        // Add the editor widget in an expand widget to the bottom left corner of the view
+        const editorExpand = new Expand({
+          view: view,
+          content: Editor,
+          expandIcon: "pencil",
+          expanded: false
+        });
+
+        view.ui.add(editorExpand, {
+          position: "bottom-left"
         });
 
         const locateBtn = new Locate({
