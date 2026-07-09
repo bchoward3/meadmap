@@ -1,1 +1,107 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+    <!-- meta for the browser to allow for bile first design -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no" />
+    
+    <title>Former Pizza Huts with New Tenant Businesses</title>
 
+    <style>
+      html,
+      body,
+      #viewDiv {
+        padding: 0;
+        margin: 0;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+      }
+      
+      .addRecordBtn {
+        position: absolute;
+        z-index: 10;
+        top: 10px;
+        right: 10px;
+        background-color: #0079c1;
+        color: white;
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        font-size: 14px;
+        cursor: pointer;
+        text-decoration: none;
+      }
+
+      .addRecordBtn:hover {
+        background-color: #005a87;
+      }
+    </style>
+
+    <!-- importing the css and libraries for esri.js -->
+    <link rel="stylesheet" href="https://js.arcgis.com/4.26/esri/themes/light/main.css" />
+    <script src="https://js.arcgis.com/4.26/"></script>
+
+    <!-- loading modules -->
+    <script>
+      require([ 
+        "esri/config","esri/Map","esri/views/MapView","esri/widgets/Locate","esri/widgets/Search","esri/layers/FeatureLayer"], 
+        (esriConfig, Map, MapView, Locate, Search, FeatureLayer) => {
+        
+        // set the API key - new commented out for testing
+         esriConfig.apiKey = "AAPTanQncLZrZf5ur6pM-ljzNxg..i-VpfICarg1tjz10faxck-Zge3EjZ7zUUP6cbX081l71ELCp9bpgqiXurYSbhs0fDmOXMQXAyGeiHz6r66t7EHfdRLO-CHh0jjakX3bxMaWeDs_FW1ECWOu3cH9p_uFnmikXqwfxpBtMbKtKduCMoKi4NsJLd979B2jQuh6qA8C7XL6pc-Zsj47-Mbr-jDGLgR_QEzkw_Qgpi8Q4oJ-Tc-g8-3Y2Q9sE_mfixuiuCYkRfvXy_LtaeqpybeLD6TZomJ_jjRIL7QE.AT1_ZP956a50";
+        
+        const map = new Map({
+          basemap: "satellite"
+        });
+
+        const view = new MapView({
+          container: "viewDiv", // Reference to the DOM node that will contain the view
+          map: map, // References the map object
+          center: [-87.8131, 42.5811], // Longitude, latitude format
+          zoom: 6, // Zoom scale level
+        });
+
+        const locateBtn = new Locate({
+          view: view
+        });
+
+        // Add the locate widget to the top left corner of the view
+        view.ui.add(locateBtn, {
+          position: "top-left"
+        });
+
+        const searchWidget = new Search({
+          view: view,
+          placeholder: "Enter address or place...",
+          container: null
+        });
+        
+        // Create featurelayer from feature service 
+        const layer = new FeatureLayer({ 
+          // URL to the service 
+          url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/survey123_939396f4d220478daa70f53321a47e7f_results/FeatureServer" 
+        });
+
+
+        // Add the expand widget to the view instead of the search widget
+        view.ui.add(searchWidget, {
+          position: "bottom-right",
+        });
+
+        // Add the feature layer to the map
+        map.add(layer);
+
+      });
+    
+    </script>
+
+  </head>
+  <body>
+
+    <a href="https://survey123.arcgis.com/share/939396f4d220478daa70f53321a47e7f" target="_blank" class="addRecordBtn">Add Record</a>
+    <div id="viewDiv"></div>
+
+  </body>
+</html>
